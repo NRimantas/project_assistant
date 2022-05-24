@@ -20,6 +20,7 @@ Route::get('/', [ProjectController::class, 'index']);
 // Routes for project
 Route::controller(ProjectController::class)->group(function (){
     Route::get('/project/create', 'create')->name('project.create');
+    Route::post('/project', 'store')->name('project.store');
 });
 
 
