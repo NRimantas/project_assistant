@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Group;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -14,7 +15,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return view('project.index');
+        $projects = Project::all();
+        return view('project.index', compact('projects'));
     }
 
     /**
@@ -35,7 +37,22 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:50',
+            'groups_number' => 'required',
+            'students_number' => 'required',
+        ]);
+
+       $project =  Project::create($request->all());
+
+        for($i=1; $i<=$request->groups; $i++){
+            $group = new Group;
+            $group->project_id = $project->id;
+            $group->number = $i;
+            $group->save();
+        }
+
+        return redirect()->route('project.index')->with('success', 'Project created successfully');
     }
 
     /**

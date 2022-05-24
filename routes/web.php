@@ -15,12 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProjectController::class, 'index']);
+// Route::get('/', [ProjectController::class, 'index'])->name('project.index');
 
+Route::get('/', function () {
+    return view('welcome');
+});
 // Routes for project
 Route::controller(ProjectController::class)->group(function (){
     Route::get('/project/create', 'create')->name('project.create');
     Route::post('/project', 'store')->name('project.store');
+    Route::get('/project', 'index')->name('project.index');
+    Route::get('/project/{project}/show', 'show')->name('project.show');
 });
 
 
