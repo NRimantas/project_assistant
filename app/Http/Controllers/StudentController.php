@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,10 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function add($id)
     {
-        //
+        $project = Project::find($id);
+        return view('student.add', ['project' => $project]);
     }
 
     /**

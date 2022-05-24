@@ -22,15 +22,16 @@
                         <th>Actions</th>
                     </thead>
                     <tbody>
-                        @foreach ($students as $student)
+                        {{-- @foreach ($project->student as $student) --}}
                             <tr>
-                                <td>{{ $student->full_name }}</td>
-                                <td>{{ $student->group_num }}</td>
+                                <td></td>
+                                {{-- <td>{{ $student->group_num }}</td> --}}
                                 {{-- <td><a href="{{ route('project.delete', $student->id )}}" class="btn btn-danger">Delete</a></td> --}}
                             </tr>
-                        @endforeach
+                        {{-- @endforeach --}}
                     </tbody>
                 </table>
+                <a href="{{ route('students.add', $project->id) }}" class="btn btn-secondary">Add new student</a>
             </div>
         </div>
     </div>

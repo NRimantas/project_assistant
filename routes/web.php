@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\StudentController;
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,13 @@ Route::controller(ProjectController::class)->group(function (){
     Route::get('/project', 'index')->name('project.index');
     Route::get('/project/{project}/show', 'show')->name('project.show');
 });
+
+// Route for create student
+Route::controller(StudentController::class)->group(function() {
+    Route::get('/students/add/{project_id}', 'add')->name('students.add');
+    Route::post('/students/add/{project_id}/store', 'store')->name('students.store');
+});
+
 
 
 
