@@ -14,6 +14,7 @@ class Student extends Model
 
     protected $fillable = [
         'full_name',
+
     ];
 
     public function projects()

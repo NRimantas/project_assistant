@@ -20,7 +20,7 @@
                     {{-- input number of groups --}}
                     <div class="mb-3">
                         <label for="groups_number" class="form-label">Number of groups</label>
-                        <input type="number" class="form-control" min="1" name="groups_number" />
+                        <input type="number" class="form-control" min="1" max="5" name="groups_number" />
                     </div>
                     {{-- input number of students --}}
                     <div class="mb-3">

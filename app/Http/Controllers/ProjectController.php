@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Group;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -26,6 +27,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
+
         return view('project.create');
     }
 
@@ -63,8 +65,8 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-
-        return view('project.show', compact(['project']));
+        $students = Student::all();
+        return view('project.show', compact('project', 'students'));
     }
 
     /**

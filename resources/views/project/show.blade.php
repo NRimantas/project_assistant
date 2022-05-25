@@ -5,7 +5,7 @@
             <div class="col">
                 <p>Project: <strong> {{ $project->title }}</strong></p>
                 <p>Number of groups: <strong> {{ $project->groups_number }}</strong></p>
-                <p>Students per group: <strong> {{ $project->students_group }}</strong></p>
+                <p>Students per group: <strong> {{ $project->students_number }}</strong></p>
 
                 <a href=" {{ route('project.index') }} " class="btn btn-secondary">Projects list</a>
             </div>
@@ -14,25 +14,75 @@
         <div class="row my-4">
             <div class="col-5">
                 <h2>Students</h2>
-                 {{-- table --}}
-                 <table class="table table-bordered">
+                @if ($message = Session::get('success'))
+                    <div class="alert alert-success">
+                        <p>{{ $message }}</p>
+                    </div>
+                @endif
+                {{-- table --}}
+                <table class="table table-bordered">
                     <thead>
                         <th>Full Name</th>
                         <th>Group</th>
                         <th>Actions</th>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($project->student as $student) --}}
+                        @foreach ($students as $student)
                             <tr>
-                                <td></td>
+                                <td>{{ $student->full_name }}</td>
+                                <td>#{{ $student->group_num }}</td>
                                 {{-- <td>{{ $student->group_num }}</td> --}}
-                                {{-- <td><a href="{{ route('project.delete', $student->id )}}" class="btn btn-danger">Delete</a></td> --}}
+                                <td>
+                                    <form action="{{ route('student.delete', $student->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="hidden" name="project_id" value="{{ $project->id }}">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+
+                                </td>
                             </tr>
-                        {{-- @endforeach --}}
+                        @endforeach
                     </tbody>
                 </table>
-                <a href="{{ route('students.add', $project->id) }}" class="btn btn-secondary">Add new student</a>
+                <a href="{{ route('student.create', $project->id) }}" class="btn btn-secondary">Add new student</a>
             </div>
         </div>
+
+        <div class="col-5">
+            <div class="row my-4">
+                <h1>Groups</h1>
+            </div>
+        </div>
+        {{-- group tables --}}
+        @for ($i = 1; $i <= $project->groups_number; $i++)
+            <div class="col-3 me-3">
+                <table class="table table-bordered text-center">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>Group #{{ $i }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for ($j = 0; $j < $project->students_number; $j++)
+                            <tr>
+                                <td>
+                                    <form action="{{ route('group.create') }}" onchange="submit();" method="POST">
+                                        @csrf
+                                        {{-- Select unsigned students --}}
+                                        <select name="full_name" class="form-select">
+                                            <option value="">Assign student</option>
+
+                                        </select>
+                                        <input type="hidden" name="project_id" value="{{ $project->id }}">
+                                        <input type="hidden" name="number" value="{{ $i }}">
+                                    </form>
+                                </td>
+                            </tr>
+                        @endfor
+                    </tbody>
+                </table>
+            </div>
+        @endfor
     </div>
 @endsection

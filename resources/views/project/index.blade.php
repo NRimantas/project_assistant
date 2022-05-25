@@ -13,7 +13,7 @@
                             <a href="{{ route('project.create') }}" class="btn btn-warning">START NEW PROJECT</a>
                         </div>
                     </div>
-
+                    {{-- message when project created --}}
                     <div class="card-body">
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
@@ -25,8 +25,8 @@
                             <thead>
                                 <th>Project Id</th>
                                 <th>Title</th>
-                                <th>Groups working</th>
-                                <th>Students working</th>
+                                <th>Groups per project</th>
+                                <th>Students per group</th>
                                 <th>Project created</th>
                                 <th>Actions</th>
                             </thead>

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Student;
+use App\Models\Group;
 use Illuminate\Http\Request;
+
 
 class StudentController extends Controller
 {
@@ -13,10 +15,9 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function add($id)
+    public function index()
     {
-        $project = Project::find($id);
-        return view('student.add', ['project' => $project]);
+
     }
 
     /**
@@ -24,9 +25,10 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Project $project, Student $student)
     {
-        //
+
+        return view('student.create', compact('project', 'student'));
     }
 
     /**
@@ -35,9 +37,16 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
-        //
+        $request->validate([
+            'full_name' => 'required|max:50',
+            'group_num' => 'nullable|integer',
+        ]);
+
+        $student =  Student::create($request->all());
+        return redirect()->route('project.show', compact('student', 'project'))->with('success', 'Student created successfully');
+
     }
 
     /**
@@ -82,6 +91,9 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+
+        $student->delete();
+        return redirect()->back;;
+
     }
 }

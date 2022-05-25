@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StudentController;
 use App\Models\Project;
@@ -29,10 +30,16 @@ Route::controller(ProjectController::class)->group(function (){
     Route::get('/project/{project}/show', 'show')->name('project.show');
 });
 
-// Route for create student
+// Routes  students
 Route::controller(StudentController::class)->group(function() {
-    Route::get('/students/add/{project_id}', 'add')->name('students.add');
-    Route::post('/students/add/{project_id}/store', 'store')->name('students.store');
+    Route::get('/student/create', 'create')->name('student.create');
+    Route::post('/student/store', 'store')->name('student.store');
+    Route::delete('/student/{student}/delete', 'destroy')->name('student.delete');
+});
+
+// Rotes for groups
+Route::controller(GroupController::class)->group(function(){
+    Route::get('/group/create', 'create')->name('group.create');
 });
 
 
