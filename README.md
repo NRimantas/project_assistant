@@ -13,7 +13,9 @@ Functionality:
     Teacher can unsign a student. In such a case, the student should be removed from the group.
     Teacher can assign a student to any of the groups. Any student can only be assigned to a single group. In case the group is full, information text should be visible to a teacher.
 
-Installation
+Instalation
+
+
 This project was made on Laravel 8 version:
 
 Alternative installation is possible without local dependencies relying on Docker.
