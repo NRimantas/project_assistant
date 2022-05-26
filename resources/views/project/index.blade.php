@@ -38,7 +38,7 @@
                                         <td>{{ $project->groups_number }}</td>
                                         <td>{{ $project->students_number }}</td>
                                         <td>{{ $project->created_at }}</td>
-                                        <td><a href="{{ route('project.show', $project->id )}}" class="btn btn-secondary">See Project</a></td>
+                                        <td><a href="{{ route('project.show', $project )}}" class="btn btn-secondary">See Project</a></td>
                                     </tr>
                                 @endforeach
                             </tbody>

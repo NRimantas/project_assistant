@@ -32,14 +32,14 @@ Route::controller(ProjectController::class)->group(function (){
 
 // Routes  students
 Route::controller(StudentController::class)->group(function() {
-    Route::get('/student/create', 'create')->name('student.create');
-    Route::post('/student/store', 'store')->name('student.store');
+    Route::get('/student/create/{project}', 'create')->name('student.create');
+    Route::post('/student/store/{project}', 'store')->name('student.store');
     Route::delete('/student/{student}/delete', 'destroy')->name('student.delete');
 });
 
 // Rotes for groups
 Route::controller(GroupController::class)->group(function(){
-    Route::get('/group/create', 'create')->name('group.create');
+    Route::post('/group/store/{student}', 'store')->name('group.store');
 });
 
 

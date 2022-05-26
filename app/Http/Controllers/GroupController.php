@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\Project;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -35,8 +37,36 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'full_name' => 'required',
+            'project_id' => 'required',
+            'group_num' => 'required',
+        ]);
+
+        $group = Group::where('project_id', $request->project_id)->where('group_num', $request->group_num)->first();
+        $student = Student::where('full_name', $request->full_name)->first();
+
+        // check if student id assigned already:
+        $groups = Group::where('project_id', $request->project_id)->get();
+        foreach ($groups as $group) {
+            if ($group->students()->where('student_id', $student->id)->exists()){
+                return redirect()->back()->with('error', 'This student assigned already!');
+            }
+        }
+
+        $student->groups()->attach($group->id);
+        return redirect()->back();
+
+
     }
+
+    public function detach(Request $request)
+        {
+            $student = Student::find($request->student_id);
+            $student->groups()->detach($request->group_id);
+
+            return redirect()->back();
+        }
 
     /**
      * Display the specified resource.

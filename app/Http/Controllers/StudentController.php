@@ -25,10 +25,10 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Project $project, Student $student)
+    public function create(Project $project)
     {
 
-        return view('student.create', compact('project', 'student'));
+        return view('student.create', compact('project'));
     }
 
     /**
@@ -41,11 +41,13 @@ class StudentController extends Controller
     {
         $request->validate([
             'full_name' => 'required|max:50',
-            'group_num' => 'nullable|integer',
+
         ]);
 
-        $student =  Student::create($request->all());
-        return redirect()->route('project.show', compact('student', 'project'))->with('success', 'Student created successfully');
+        // creating new student
+        // dd($project);
+        Student::create($request->all());
+        return redirect()->route('project.show', ['project' => $project])->with('success', 'Student created successfully');
 
     }
 
@@ -93,7 +95,7 @@ class StudentController extends Controller
     {
 
         $student->delete();
-        return redirect()->back;;
+        return redirect()->back();
 
     }
 }

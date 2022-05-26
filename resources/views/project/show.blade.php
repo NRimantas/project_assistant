@@ -31,7 +31,6 @@
                             <tr>
                                 <td>{{ $student->full_name }}</td>
                                 <td>#{{ $student->group_num }}</td>
-                                {{-- <td>{{ $student->group_num }}</td> --}}
                                 <td>
                                     <form action="{{ route('student.delete', $student->id) }}" method="POST">
                                         @csrf
@@ -45,7 +44,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                <a href="{{ route('student.create', $project->id) }}" class="btn btn-secondary">Add new student</a>
+                <a href="{{ route('student.create', $project) }}" class="btn btn-secondary">Add new student</a>
             </div>
         </div>
 
@@ -67,15 +66,19 @@
                         @for ($j = 0; $j < $project->students_number; $j++)
                             <tr>
                                 <td>
-                                    <form action="{{ route('group.create') }}" onchange="submit();" method="POST">
+                                    {{-- form to select student --}}
+                                    <form action="{{ route('group.store', $student) }}" onchange="submit();" method="POST">
                                         @csrf
-                                        {{-- Select unsigned students --}}
-                                        <select name="full_name" class="form-select">
+                                        {{-- Select students --}}
+                                        <select name="full_name" class="form-select" id="full_name">
                                             <option value="">Assign student</option>
-
+                                            @foreach ($students as $student)
+                                                    <option value="{{ $student->full_name }}">{{ $student->full_name }}
+                                                    </option>
+                                            @endforeach
                                         </select>
                                         <input type="hidden" name="project_id" value="{{ $project->id }}">
-                                        <input type="hidden" name="number" value="{{ $i }}">
+                                        <input type="hidden" name="group_num" value="{{ $i }}">
                                     </form>
                                 </td>
                             </tr>
