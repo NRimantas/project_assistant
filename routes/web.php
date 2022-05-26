@@ -39,7 +39,7 @@ Route::controller(StudentController::class)->group(function() {
 
 // Rotes for groups
 Route::controller(GroupController::class)->group(function(){
-    Route::post('/group/store/{student}', 'store')->name('group.store');
+    Route::post('/group/store', 'store')->name('group.store');
 });
 
 

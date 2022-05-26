@@ -30,7 +30,21 @@
                         @foreach ($students as $student)
                             <tr>
                                 <td>{{ $student->full_name }}</td>
-                                <td>#{{ $student->group_num }}</td>
+                                <td>
+                                    {{-- find the students group and show group number --}}
+                                    @php
+                                        $group = $student
+                                            ->groups()
+                                            ->where('student_id', $student->id)
+                                            ->where('project_id', $project->id)
+                                            ->first();
+                                    @endphp
+                                    @if ($group)
+                                         #{{ $group->group_num }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td>
                                     <form action="{{ route('student.delete', $student->id) }}" method="POST">
                                         @csrf
@@ -51,6 +65,18 @@
         <div class="col-5">
             <div class="row my-4">
                 <h1>Groups</h1>
+                {{-- message if created --}}
+                @if ($message = Session::get('group'))
+                    <div class="alert alert-success">
+                        <span>{{ $message }}</span>
+                    </div>
+                @endif
+                {{-- message if student assigned already --}}
+                @if ($message = Session::get('error'))
+                    <div class="alert alert-danger">
+                        <span>{{ $message }}</span>
+                    </div>
+                @endif
             </div>
         </div>
         {{-- group tables --}}
@@ -67,14 +93,14 @@
                             <tr>
                                 <td>
                                     {{-- form to select student --}}
-                                    <form action="{{ route('group.store', $student) }}" onchange="submit();" method="POST">
+                                    <form action="{{ route('group.store') }}" onchange="submit();" method="POST">
                                         @csrf
                                         {{-- Select students --}}
                                         <select name="full_name" class="form-select" id="full_name">
                                             <option value="">Assign student</option>
                                             @foreach ($students as $student)
-                                                    <option value="{{ $student->full_name }}">{{ $student->full_name }}
-                                                    </option>
+                                                <option value="{{ $student->full_name }}">{{ $student->full_name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <input type="hidden" name="project_id" value="{{ $project->id }}">

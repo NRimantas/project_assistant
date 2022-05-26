@@ -45,9 +45,8 @@ class StudentController extends Controller
         ]);
 
         // creating new student
-        // dd($project);
         Student::create($request->all());
-        return redirect()->route('project.show', ['project' => $project])->with('success', 'Student created successfully');
+        return redirect()->route('project.show', compact('project'))->with('success', 'Student created successfully');
 
     }
 

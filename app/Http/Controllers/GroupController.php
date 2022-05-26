@@ -38,35 +38,29 @@ class GroupController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'full_name' => 'required',
             'project_id' => 'required',
+            'full_name' => 'required',
             'group_num' => 'required',
+
         ]);
 
         $group = Group::where('project_id', $request->project_id)->where('group_num', $request->group_num)->first();
         $student = Student::where('full_name', $request->full_name)->first();
 
-        // check if student id assigned already:
+        // Check if student assigned
         $groups = Group::where('project_id', $request->project_id)->get();
         foreach ($groups as $group) {
             if ($group->students()->where('student_id', $student->id)->exists()){
-                return redirect()->back()->with('error', 'This student assigned already!');
+                return redirect()->back()->with('error', 'This student assigned to a group already!');
             }
         }
 
         $student->groups()->attach($group->id);
-        return redirect()->back();
-
+        return redirect()->back()->with('group', 'Student assigned successfully');
 
     }
 
-    public function detach(Request $request)
-        {
-            $student = Student::find($request->student_id);
-            $student->groups()->detach($request->group_id);
 
-            return redirect()->back();
-        }
 
     /**
      * Display the specified resource.

@@ -13,14 +13,13 @@ class Group extends Model
 
     protected $fillable = [
         'project_id',
-        'student_id',
         'group_num',
 
     ];
 
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsToMany(Project::class);
     }
 
     public function students()
