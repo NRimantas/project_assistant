@@ -51,12 +51,12 @@ class GroupController extends Controller
         $groups = Group::where('project_id', $request->project_id)->get();
         foreach ($groups as $group) {
             if ($group->students()->where('student_id', $student->id)->exists()){
-                return redirect()->back()->with('error', 'This student assigned to a group already!');
+                return redirect()->back()->with('error', 'This student is assigned already!');
             }
         }
 
         $student->groups()->attach($group->id);
-        return redirect()->back()->with('group', 'Student assigned successfully');
+        return redirect()->back()->with('group', 'Student assigned successfully!');
 
     }
 
@@ -102,8 +102,11 @@ class GroupController extends Controller
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Group $group)
+    public function destroy(Request $request)
     {
-        //
+        $student = Student::find($request->student_id);
+        $student->groups()->sync($request->group_id);
+
+        return redirect()->back();
     }
 }

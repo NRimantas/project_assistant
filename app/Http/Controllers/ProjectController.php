@@ -66,8 +66,10 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+
         $students = Student::all();
-        return view('project.show', compact('project', 'students'));
+        $groups = Group::all();
+        return view('project.show', compact('project', 'students', 'groups'));
     }
 
     /**

@@ -14,11 +14,18 @@
         <div class="row my-4">
             <div class="col-5">
                 <h2>Students</h2>
+                {{-- message when student created  --}}
                 @if ($message = Session::get('success'))
                     <div class="alert alert-success">
                         <p>{{ $message }}</p>
                     </div>
                 @endif
+                {{-- if student already exists --}}
+                @if ($message = Session::get('err'))
+                <div class="alert alert-danger">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
                 {{-- table --}}
                 <table class="table table-bordered">
                     <thead>
@@ -40,7 +47,7 @@
                                             ->first();
                                     @endphp
                                     @if ($group)
-                                         #{{ $group->group_num }}
+                                        #{{ $group->group_num }}
                                     @else
                                         -
                                     @endif
@@ -77,6 +84,7 @@
                         <span>{{ $message }}</span>
                     </div>
                 @endif
+
             </div>
         </div>
         {{-- group tables --}}
@@ -89,24 +97,32 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                        {{-- group table rows --}}
                         @for ($j = 0; $j < $project->students_number; $j++)
+
                             <tr>
                                 <td>
-                                    {{-- form to select student --}}
-                                    <form action="{{ route('group.store') }}" onchange="submit();" method="POST">
-                                        @csrf
-                                        {{-- Select students --}}
-                                        <select name="full_name" class="form-select" id="full_name">
-                                            <option value="">Assign student</option>
-                                            @foreach ($students as $student)
-                                                <option value="{{ $student->full_name }}">{{ $student->full_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <input type="hidden" name="project_id" value="{{ $project->id }}">
-                                        <input type="hidden" name="group_num" value="{{ $i }}">
-                                    </form>
+
                                 </td>
+                            </tr>
+
+                            <td>
+                                {{-- form to select student --}}
+                                <form action="{{ route('group.store') }}" onchange="submit();" method="POST">
+                                    @csrf
+                                    {{-- Select student --}}
+                                    <select name="full_name" class="form-select" id="full_name">
+                                        <option value="">Assign student</option>
+                                        @foreach ($students as $student)
+                                            <option value="{{ $student->full_name }}">{{ $student->full_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="project_id" value="{{ $project->id }}">
+                                    <input type="hidden" name="group_num" value="{{ $i }}">
+                                </form>
+                            </td>
                             </tr>
                         @endfor
                     </tbody>

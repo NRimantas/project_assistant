@@ -43,10 +43,16 @@ class StudentController extends Controller
             'full_name' => 'required|max:50',
 
         ]);
-
-        // creating new student
+        // checking if student already exists
+        if(Student::exists()){
+            return redirect()->route('project.show', compact('project'))->with('err', 'Student already exists');
+        }else{
+             // creating new student
         Student::create($request->all());
+
         return redirect()->route('project.show', compact('project'))->with('success', 'Student created successfully');
+        }
+
 
     }
 
