@@ -44,7 +44,7 @@ class StudentController extends Controller
 
         ]);
         // checking if student already exists
-        if(Student::exists()){
+        if(Student::where('full_name', '=', $request->full_name)->exists()){
             return redirect()->route('project.show', compact('project'))->with('err', 'Student already exists');
         }else{
              // creating new student

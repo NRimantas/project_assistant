@@ -38,7 +38,7 @@
                             <tr>
                                 <td>{{ $student->full_name }}</td>
                                 <td>
-                                    {{-- find the students group and show group number --}}
+                                    {{-- find students with group number --}}
                                     @php
                                         $group = $student
                                             ->groups()
@@ -97,35 +97,27 @@
                         </tr>
                     </thead>
                     <tbody>
-
-                        {{-- group table rows --}}
+                         {{-- group table rows --}}
                         @for ($j = 0; $j < $project->students_number; $j++)
+                           <tr>
+                                <td>
+                                    {{-- form to select student --}}
+                                    <form action="{{ route('group.store') }}" onchange="submit();" method="POST">
+                                        @csrf
+                                        {{-- Select student --}}
+                                        <select name="full_name" class="form-select" id="full_name">
+                                            <option value="">Assign student</option>
+                                            @foreach ($students as $student)
+                                                <option value="{{ $student->full_name }}">{{ $student->full_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <input type="hidden" name="project_id" value="{{ $project->id }}">
+                                        <input type="hidden" name="group_num" value="{{ $i }}">
+                                    </form>
+                                </td>
+                                </tr>
 
-                                @foreach ($students as $student)
-                                    <tr>
-                                        <td>
-                                            {{ $student->full_name }}
-
-                                        </td>
-                                    </tr>
-                                @endforeach                               @endif
-                            <td>
-                                {{-- form to select student --}}
-                                <form action="{{ route('group.store') }}" onchange="submit();" method="POST">
-                                    @csrf
-                                    {{-- Select student --}}
-                                    <select name="full_name" class="form-select" id="full_name">
-                                        <option value="">Assign student</option>
-                                        @foreach ($students as $student)
-                                            <option value="{{ $student->full_name }}">{{ $student->full_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <input type="hidden" name="project_id" value="{{ $project->id }}">
-                                    <input type="hidden" name="group_num" value="{{ $i }}">
-                                </form>
-                            </td>
-                            </tr>
                         @endfor
                     </tbody>
                 </table>

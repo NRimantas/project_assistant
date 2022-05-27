@@ -51,7 +51,7 @@ class ProjectController extends Controller
 
         $project =  Project::create($request->all());
 
-
+        // create groups, as requested
         for ($i = 1; $i <= $request->groups_number; $i++) {
             $group = new Group;
             $group->project_id = $project->id;

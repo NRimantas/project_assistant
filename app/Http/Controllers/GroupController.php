@@ -105,7 +105,7 @@ class GroupController extends Controller
     public function destroy(Request $request)
     {
         $student = Student::find($request->student_id);
-        $student->groups()->sync($request->group_id);
+        $student->groups()->detach($request->group_id);
 
         return redirect()->back();
     }
