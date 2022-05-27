@@ -20,6 +20,13 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
+                         {{-- if project title already exists --}}
+                    <div class="card-body">
+                        @if ($message = Session::get('title'))
+                            <div class="alert alert-danger">
+                                <p>{{ $message }}</p>
+                            </div>
+                        @endif
                         {{-- table --}}
                         <table class="table table-bordered">
                             <thead>

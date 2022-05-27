@@ -14,7 +14,7 @@
         <div class="row my-4">
             <div class="col-5">
                 <h2>Students</h2>
-                {{-- message when student created  --}}
+                {{-- message when student created --}}
                 @if ($message = Session::get('success'))
                     <div class="alert alert-success">
                         <p>{{ $message }}</p>
@@ -22,10 +22,10 @@
                 @endif
                 {{-- if student already exists --}}
                 @if ($message = Session::get('err'))
-                <div class="alert alert-danger">
-                    <p>{{ $message }}</p>
-                </div>
-            @endif
+                    <div class="alert alert-danger">
+                        <p>{{ $message }}</p>
+                    </div>
+                @endif
                 {{-- table --}}
                 <table class="table table-bordered">
                     <thead>
@@ -101,12 +101,14 @@
                         {{-- group table rows --}}
                         @for ($j = 0; $j < $project->students_number; $j++)
 
-                            <tr>
-                                <td>
+                                @foreach ($students as $student)
+                                    <tr>
+                                        <td>
+                                            {{ $student->full_name }}
 
-                                </td>
-                            </tr>
-
+                                        </td>
+                                    </tr>
+                                @endforeach                               @endif
                             <td>
                                 {{-- form to select student --}}
                                 <form action="{{ route('group.store') }}" onchange="submit();" method="POST">

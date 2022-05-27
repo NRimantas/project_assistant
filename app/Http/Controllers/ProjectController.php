@@ -45,17 +45,24 @@ class ProjectController extends Controller
             'students_number' => 'required',
         ]);
 
-       $project =  Project::create($request->all());
+        if (Project::where('title', '=', $request->title)->exists()) {
+            return redirect()->route('project.index')->with('title', 'Project title exists');
+         }else{
+
+        $project =  Project::create($request->all());
 
 
-       for($i=1; $i<=$request->groups_number; $i++){
-        $group = new Group;
-        $group->project_id = $project->id;
-        $group->group_num = $i;
-        $group->save();
-    }
+        for ($i = 1; $i <= $request->groups_number; $i++) {
+            $group = new Group;
+            $group->project_id = $project->id;
+            $group->group_num = $i;
+            $group->save();
+        }
 
         return redirect()->route('project.index')->with('success', 'Project created successfully');
+         }
+
+
     }
 
     /**
