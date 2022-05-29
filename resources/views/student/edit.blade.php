@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
 
-        {{-- CARD FOR FORM TO CREATE STUDENT --}}
+        {{-- CARD FOR FORM TO UPDATE STUDENT --}}
         <div class="card mx-auto" style="width: 28rem;">
             {{-- HEADER --}}
             <div class="card-header">
@@ -15,17 +15,16 @@
                 @endif
             </div>
             <div class="card-body">
-                {{-- FORM FOR CREATE STUDENT --}}
-                <form action="{{ route('student.store', $project) }}" method="POST">
+                {{-- FORM FOR EDIT STUDENT --}}
+                <form action="{{ route('student.update', $project, $student) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     {{-- full name input --}}
                     <div class="mb-3">
                         <label for="full_name" class="form-label">Student full Name</label>
-                        <input type="text" name="full_name" class="form-control">
-
+                        <input type="text" name="full_name" class="form-control" value="{{ $student->full_name }}">
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">EDIT</button>
                 </form>
             </div>
         </div>

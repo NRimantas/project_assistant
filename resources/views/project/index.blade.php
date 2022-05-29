@@ -49,12 +49,11 @@
                                             <td>{{ $project->created_at }}</td>
                                             {{-- show project --}}
                                             <td><a href="{{ route('project.show', $project) }}"
-                                                    class="btn btn-sm btn-secondary">Show</a>
+                                                    class="btn btn-sm btn-secondary mb-2">Show</a>
                                                 {{-- edit project --}}
-                                                <a href="{{ route('project.edit', $project) }}" class="btn btn-sm btn-warning">EDIT</a>
+                                                <a href="{{ route('project.edit', $project) }}" class="btn btn-sm btn-warning mb-2">EDIT</a>
                                                 {{-- delete PROJECT --}}
-                                                <form action="{{ route('project.delete', $project) }}" method="POST"
-                                                    class="d-inline">
+                                                <form action="{{ route('project.delete', $project) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger">Delete</button>

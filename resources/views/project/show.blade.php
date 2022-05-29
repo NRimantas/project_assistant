@@ -53,11 +53,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <form action="{{ route('student.delete', $student->id) }}" method="POST">
+                                    {{-- delete student --}}
+                                    <form action="{{ route('student.delete', $student->id) }}" method="POST"
+                                        class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <input type="hidden" name="project_id" value="{{ $project->id }}">
-                                        <button type="submit" class="btn btn-danger ">Delete</button>
+                                        <button type="submit" class="btn btn-sm btn-danger ">Delete</button>
                                     </form>
 
                                 </td>
@@ -97,9 +99,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                         {{-- group table rows --}}
+                        {{-- group table rows --}}
                         @for ($j = 0; $j < $project->students_number; $j++)
-                           <tr>
+                            <tr>
                                 <td>
                                     {{-- form to select student --}}
                                     <form action="{{ route('group.store') }}" onchange="submit();" method="POST">
@@ -116,8 +118,7 @@
                                         <input type="hidden" name="group_num" value="{{ $i }}">
                                     </form>
                                 </td>
-                                </tr>
-
+                            </tr>
                         @endfor
                     </tbody>
                 </table>
