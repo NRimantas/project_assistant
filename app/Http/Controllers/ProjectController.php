@@ -16,6 +16,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        //get all projects data
         $projects = Project::all();
         return view('project.index', compact('projects'));
     }
@@ -27,7 +28,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-
+        //returning create view blade
         return view('project.create');
     }
 
@@ -44,25 +45,23 @@ class ProjectController extends Controller
             'groups_number' => 'required',
             'students_number' => 'required',
         ]);
-
+        // if title already exists
         if (Project::where('title', '=', $request->title)->exists()) {
             return redirect()->route('project.index')->with('title', 'Project title exists');
-         }else{
+        } else {
 
-        $project =  Project::create($request->all());
+            $project =  Project::create($request->all());
 
-        // create groups, as requested
-        for ($i = 1; $i <= $request->groups_number; $i++) {
-            $group = new Group;
-            $group->project_id = $project->id;
-            $group->group_num = $i;
-            $group->save();
+            // create groups, as requested
+            for ($i = 1; $i <= $request->groups_number; $i++) {
+                $group = new Group;
+                $group->project_id = $project->id;
+                $group->group_num = $i;
+                $group->save();
+            }
+
+            return redirect()->route('project.index')->with('success', 'Project created successfully');
         }
-
-        return redirect()->route('project.index')->with('success', 'Project created successfully');
-         }
-
-
     }
 
     /**
@@ -73,7 +72,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-
+        // get students and groups data
         $students = Student::all();
         $groups = Group::all();
         return view('project.show', compact('project', 'students', 'groups'));
@@ -87,7 +86,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('project.edit', compact('project'));
     }
 
     /**
@@ -97,9 +96,32 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, $id)
     {
-        //
+
+       $validate_data = $request->validate([
+            'title' => 'required|max:50',
+            'groups_number' => 'required',
+            'students_number' => 'required',
+        ]);
+
+        // if title already exists
+        if (Project::where('title', '=', $request->title)->exists()) {
+            return redirect()->route('project.edit', compact('project'))->with('title', 'Project title already exists');
+        }else{
+            // update project
+            $project=Project::find($id);
+            $project->title = $request->title;
+            $project->groups_number = $request->groups_number;
+            $project->students_number = $request->students_number;
+            $project->save();
+
+            return redirect()->route('project.index', compact('project'))->with('success', 'Project was updated successfully!');
+        }
+
+
+
+
     }
 
     /**
@@ -110,6 +132,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return redirect()->back();
     }
 }

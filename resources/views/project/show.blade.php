@@ -57,7 +57,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <input type="hidden" name="project_id" value="{{ $project->id }}">
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="btn btn-danger ">Delete</button>
                                     </form>
 
                                 </td>

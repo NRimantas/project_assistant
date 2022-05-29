@@ -29,6 +29,9 @@ Route::controller(ProjectController::class)->group(function (){
     Route::post('/project', 'store')->name('project.store');
     Route::get('/project', 'index')->name('project.index');
     Route::get('/project/{project}/show', 'show')->name('project.show');
+    Route::get('/project/{project}/edit', 'edit')->name('project.edit');
+    Route::put('/project/{project}/update', 'update')->name('project.update');
+    Route::delete('/project/{project}/delete', 'destroy')->name('project.delete');
 });
 
 // Routes  students
